@@ -12,6 +12,7 @@ const customersCSV = path.join(csvDir, 'customer.csv');
 const tracksCSV = path.join(csvDir, 'track.csv');
 const invoicesCSV = path.join(csvDir, 'invoice.csv');
 const playlistsCSV = path.join(csvDir, 'playlist.csv');
+const invoiceLinesCSV = path.join(csvDir, 'invoice_line.csv'); // New CSV path
 
 // Function to create tables
 const createTables = () => {
@@ -69,8 +70,17 @@ const createTables = () => {
       FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
     );
   `);
-
-  // Create playlists table
+// Create invoice_lines table
+db.run(`DROP TABLE IF EXISTS invoice_lines;`);
+db.run(`CREATE TABLE IF NOT EXISTS invoice_lines (
+  invoice_line_id INTEGER PRIMARY KEY,
+  invoice_id INTEGER,
+  track_id INTEGER,
+  unit_price REAL,
+  quantity INTEGER,
+  FOREIGN KEY (invoice_id) REFERENCES invoices(invoice_id),
+  FOREIGN KEY (track_id) REFERENCES tracks(track_id)
+);`);
   db.run(`DROP TABLE IF EXISTS playlists;`);
   db.run(`
     CREATE TABLE IF NOT EXISTS playlists (
@@ -115,6 +125,8 @@ db.serialize(() => {
   loadCSVData(tracksCSV, 'tracks', 9);         // For tracks table with 9 columns
   loadCSVData(invoicesCSV, 'invoices', 9);     // For invoices table with 9 columns
   loadCSVData(playlistsCSV, 'playlists', 2);   // For playlists table with 2 columns
+  loadCSVData(invoiceLinesCSV, 'invoice_lines', 5); // Load invoice lines with 5 columns
+ 
   console.log('Database setup complete!');
 });
 

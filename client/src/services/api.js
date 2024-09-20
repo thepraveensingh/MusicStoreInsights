@@ -10,20 +10,20 @@ export const fetchCustomers = async () => {
 
 // Fetch track popularity
 export const fetchTracks = async () => {
-  const response = await fetch('/api/tracks');
+  const response = await fetch(`${API_URL}api/tracks`);
   const data = await response.json();
   return data;
 };
 
 // Fetch invoices
 export const fetchInvoices = async () => {
-  const response = await fetch('/api/invoices');
+  const response = await fetch(`${API_URL}api/invoices`);
   const data = await response.json();
   return data;
 };
 
 export const fetchPlaylists = async () => {
-    const response = await fetch(`/api/playlists`);
+    const response = await fetch(`${API_URL}api/playlists`);
     return response.json();
 };
 

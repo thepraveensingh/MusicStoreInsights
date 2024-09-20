@@ -4,7 +4,8 @@ import { fetchTracks } from '../services/api';
 
 const PopularityTrends = () => {
     const { data: tracks, loading, error } = useFetch(fetchTracks);
-
+    console.log(tracks);
+    
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error loading track data</div>;
 
@@ -15,7 +16,7 @@ const PopularityTrends = () => {
             <h2>Popularity Trends</h2>
             <ul>
                 {sortedTracks.map(track => (
-                    <li key={track.id}>{track.title} - Plays: {track.plays}</li>
+                    <li key={track.id}>{track.name} - Sold: {track.total_sold}</li>
                 ))}
             </ul>
         </div>

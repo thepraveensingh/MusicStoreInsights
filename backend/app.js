@@ -22,7 +22,28 @@ app.get('/api/customers/insights', (req, res) => {
 
 // Track Popularity API
 app.get('/api/tracks', (req, res) => {
-  const query = `SELECT tracks.name, COUNT(invoices.track_id) AS times_sold FROM tracks JOIN invoices ON tracks.track_id = invoices.track_id GROUP BY tracks.name ORDER BY times_sold DESC LIMIT 10`;
+  const query = `SELECT tracks.name, SUM(invoice_lines.quantity) AS total_sold
+FROM tracks
+JOIN invoice_lines ON tracks.track_id = invoice_lines.track_id
+GROUP BY tracks.name
+ORDER BY total_sold DESC
+LIMIT 10;
+
+`;
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(rows);
+  });
+});
+
+// Playlist Recommendations API based on track popularity
+app.get('/api/playlists', (req, res) => {
+  const query = `
+    SELECT * from playlists
+  `;
+  
   db.all(query, [], (err, rows) => {
     if (err) {
       return res.status(500).json({ error: err.message });
