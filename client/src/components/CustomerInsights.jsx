@@ -3,9 +3,7 @@ import useFetch from '../hooks/useFetch';
 import { fetchCustomers } from '../services/api';
 
 const CustomerInsights = () => {
-    // console.log("this is coming from customerinsight" , fetchCustomers);
-    const { data: customers, loading, error } = useFetch(fetchCustomers);
-    console.log(customers);
+    const { data: customerData, loading, error } = useFetch(fetchCustomers);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error loading customer data</div>;
@@ -14,8 +12,10 @@ const CustomerInsights = () => {
         <div>
             <h2>Customer Insights</h2>
             <ul>
-                {customers.map(customer => (
-                    <li key={customer.customer_id}>{customer.first_name} - Total Spend: {customer.totalSpend}</li>
+                {customerData.map((data, index) => (
+                    <li key={index}>
+                        Country: {data.country ? data.country : 'Unknown'} - Customer Count: {data.customer_count}
+                    </li>
                 ))}
             </ul>
         </div>
