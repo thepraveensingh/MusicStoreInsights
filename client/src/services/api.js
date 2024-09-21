@@ -2,9 +2,21 @@ const API_URL = 'http://localhost:5000/'; // Update this URL if your backend run
 // Fetch customer insights
 export const fetchCustomers = async () => {
     const response = await fetch(`${API_URL}api/customers/insights`);
+  const data = await response.json();  
+  return data;
+};
+
+// Fetch engagement
+export const fetchEngagement = async () => {
+  const response = await fetch(`${API_URL}api/engagement`);
   const data = await response.json();
-  console.log(data);
-  
+  return data;
+};
+
+
+export const fetchPlaylists = async () => {
+  const response = await fetch(`${API_URL}api/playlists`);
+  const data = await response.json();
   return data;
 };
 
@@ -20,11 +32,6 @@ export const fetchInvoices = async () => {
   const response = await fetch(`${API_URL}api/invoices`);
   const data = await response.json();
   return data;
-};
-
-export const fetchPlaylists = async () => {
-    const response = await fetch(`${API_URL}api/playlists`);
-    return response.json();
 };
 
 

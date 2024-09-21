@@ -14,7 +14,7 @@ const InvoiceManagement = () => {
             <h2>Invoice Management</h2>
             <ul>
                 {invoices.map(invoice => (
-                    <li key={invoice.invoice_id}>Invoice #{invoice.invoice_id} - Amount: {invoice.total}</li>
+                    <li key={invoice.invoice_id}>inv_Name :{invoice.first_name} {invoice.last_name} , total_purchases: {invoice.total_purchases} , Amount: {invoice.Amount} $</li>
                 ))}
             </ul>
         </div>

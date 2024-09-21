@@ -81,6 +81,8 @@ db.run(`CREATE TABLE IF NOT EXISTS invoice_lines (
   FOREIGN KEY (invoice_id) REFERENCES invoices(invoice_id),
   FOREIGN KEY (track_id) REFERENCES tracks(track_id)
 );`);
+
+//create playlist table
   db.run(`DROP TABLE IF EXISTS playlists;`);
   db.run(`
     CREATE TABLE IF NOT EXISTS playlists (

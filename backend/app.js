@@ -11,7 +11,11 @@ const db = new sqlite3.Database(dbPath);
 app.use(express.json());
 app.use(cors());
 app.get('/api/customers/insights', (req, res) => {
-  const query = `SELECT country, COUNT(customer_id) AS customer_count FROM customers GROUP BY country ORDER BY customer_count DESC`;
+  const query = `SELECT country, COUNT(customer_id) AS customer_count
+        FROM customers
+        GROUP BY country
+        ORDER BY customer_count DESC`;
+ 
   db.all(query, [], (err, rows) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -20,16 +24,32 @@ app.get('/api/customers/insights', (req, res) => {
   });
 });
 
+// Engagement Analytics API
+app.get('/api/engagement', (req, res) => {
+  const query = `
+    SELECT customers.customer_id, customers.first_name, COUNT(invoices.invoice_id) AS total_invoices, 
+    COUNT(invoice_lines.track_id) AS total_tracks_purchased
+    FROM customers
+    LEFT JOIN invoices ON customers.customer_id = invoices.customer_id
+    LEFT JOIN invoice_lines ON invoices.invoice_id = invoice_lines.invoice_id
+    GROUP BY customers.customer_id;
+  `;
+
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(rows);
+  });
+});
+
+
 // Track Popularity API
 app.get('/api/tracks', (req, res) => {
   const query = `SELECT tracks.name, SUM(invoice_lines.quantity) AS total_sold
 FROM tracks
 JOIN invoice_lines ON tracks.track_id = invoice_lines.track_id
-GROUP BY tracks.name
-ORDER BY total_sold DESC
-LIMIT 10;
-
-`;
+GROUP BY tracks.name;`;
   db.all(query, [], (err, rows) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -40,9 +60,7 @@ LIMIT 10;
 
 // Playlist Recommendations API based on track popularity
 app.get('/api/playlists', (req, res) => {
-  const query = `
-    SELECT * from playlists
-  `;
+  const query = `SELECT* from playlists `;
   
   db.all(query, [], (err, rows) => {
     if (err) {
@@ -54,7 +72,8 @@ app.get('/api/playlists', (req, res) => {
 
 // Invoice Management API
 app.get('/api/invoices', (req, res) => {
-  const query = `SELECT * FROM invoices`;
+  const query = `SELECT customers.first_name, customers.last_name, SUM(invoice_lines.quantity * invoice_lines.unit_price) AS Amount, SUM(invoice_lines.quantity) AS total_purchases FROM invoices JOIN customers ON invoices.customer_id = customers.customer_id JOIN invoice_lines ON invoices.invoice_id = invoice_lines.invoice_id GROUP BY customers.customer_id;;
+`;
   db.all(query, [], (err, rows) => {
     if (err) {
       return res.status(500).json({ error: err.message });

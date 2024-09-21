@@ -11,10 +11,10 @@ const PlaylistRecommendations = () => {
 
     return (
         <div>
-            <h2>Playlist Recommendations</h2>
+            <h2>Playlists</h2>
             <ul>
                 {playlists.map(playlist => (
-                    <li key={playlist.playlist_id}> Playlist #{playlist.playlist_id} - Name: {playlist.name}</li>
+                    <li key={playlist.playlist_id}> {playlist.name}</li>
                 ))}
             </ul>
         </div>
