@@ -1,6 +1,7 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
 import { fetchCustomers } from '../services/api';
+import '../styles/CustomerInsights.css'; // Create a CSS file for styling
 
 const CustomerInsights = () => {
     const { data: customerData, loading, error } = useFetch(fetchCustomers);
@@ -11,13 +12,19 @@ const CustomerInsights = () => {
     return (
         <div>
             <h2>Customer Insights</h2>
-            <ul>
+            <div className="chart-container">
                 {customerData.map((data, index) => (
-                    <li key={index}>
-                        Country: {data.country ? data.country : 'Unknown'} - Customer Count: {data.customer_count}
-                    </li>
+                    <div key={index} className="bar">
+                        <span className="country-name">{data.country ? data.country : 'Unknown'}</span>
+                        <div
+                            className="bar-fill"
+                            style={{ width: `${data.customer_count * 9}px` }} // Adjust multiplier for bar length
+                        >
+                            {data.customer_count}
+                        </div>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

@@ -1,0 +1,67 @@
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 40px;
+}
+
+h2 {
+  margin: 0;
+  font-family: 'Pacifico', cursive;
+  font-size: 3rem;
+  color: #6146d0;
+  text-align: center;
+  text-shadow: 3px 3px 6px rgba(152, 150, 150, 0.7);
+  letter-spacing: 3px;
+  transition: transform 0.3s;
+  margin-bottom: 20px;
+}
+
+h2:hover {
+  transform: translateY(-5px);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  margin: 2px 0;
+  height: 30px;
+}
+
+.country-name {
+  width: 140px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.bar-fill {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;  background-color: rgba(98, 0, 234, 0.8);
+  height: 15px;
+  padding: 5px;
+  border-radius: 5px;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease-in-out;
+  position: relative;
+  color: transparent;
+  text-align: left;
+
+}
+
+.bar-fill:hover {
+  color: white;
+}
+
+.bar-fill span {
+  padding-right: 10px;
+  transition: color 0.3s ease-in-out;
+}
+
+.bar-fill:hover span {
+  color: white;
+}
+
+.bar-fill:hover {
+  width: auto;
+}

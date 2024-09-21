@@ -49,7 +49,9 @@ app.get('/api/tracks', (req, res) => {
   const query = `SELECT tracks.name, SUM(invoice_lines.quantity) AS total_sold
 FROM tracks
 JOIN invoice_lines ON tracks.track_id = invoice_lines.track_id
-GROUP BY tracks.name;`;
+GROUP BY tracks.name
+order by total_sold desc
+limit 10`;
   db.all(query, [], (err, rows) => {
     if (err) {
       return res.status(500).json({ error: err.message });

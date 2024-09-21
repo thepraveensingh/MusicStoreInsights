@@ -1,23 +1,29 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
-import {fetchEngagement} from '../services/api';
+import { fetchEngagement } from '../services/api';
+import '../styles/EngagementAnalytics.css';  // Import the corresponding CSS file
 
 const EngagementAnalytics = () => {
-    const { data: tracks, loading, error } = useFetch(fetchEngagement );
-    console.log(tracks);
-    
+    const { data: tracks, loading, error } = useFetch(fetchEngagement);
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error loading track data</div>;
 
     return (
-        <div>
+        <div className="engagement-container">
             <h2>Engagement Analytics</h2>
-            <ul>
+            <ul className="engagement-list">
                 {tracks.map((customer, index) => (
-                    // Using index as the fallback for the key since there's no id field
                     <li key={customer.customer_id || index}>
-                    {customer.first_name} (ID: {customer.customer_id}) - Total Invoices: {customer.total_invoices}, Total Tracks Purchased: {customer.total_tracks_purchased}
-                </li>
+                        <div className="customer-info">
+                            <span className="customer-name">{customer.first_name} {customer.last_name}</span>
+                            <span className="customer-id">ID: {customer.customer_id}</span>
+                        </div>
+                        <div className="engagement-stats">
+                            
+                            <span>Total Tracks Purchased: <span className="stat-number">{customer.total_tracks_purchased}</span></span>
+                        </div>
+                    </li>
                 ))}
             </ul>
         </div>

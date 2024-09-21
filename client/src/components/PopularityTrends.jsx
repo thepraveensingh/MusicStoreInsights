@@ -1,6 +1,7 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
 import { fetchTracks } from '../services/api';
+import '../styles/PopularityTrends.css'; // Ensure to import your CSS file
 
 const PopularityTrends = () => {
     const { data: tracks, loading, error } = useFetch(fetchTracks);
@@ -12,8 +13,8 @@ const PopularityTrends = () => {
     const sortedTracks = [...tracks].sort((a, b) => b.plays - a.plays);
 
     return (
-        <div>
-            <h2>Popularity Trends</h2>
+        <div className="popularity-container">
+            <h2>Here are the top 10 tracks</h2>
             <ul>
                 {sortedTracks.map(track => (
                     <li key={track.id}>{track.name} - Sold: {track.total_sold}</li>

@@ -1,20 +1,24 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
 import { fetchPlaylists } from '../services/api';
+import '../styles/PlaylistRecommendations.css';  // Import the CSS file
 
 const PlaylistRecommendations = () => {
     const { data: playlists, loading, error } = useFetch(fetchPlaylists);
-    console.log(playlists);
     
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error loading playlist data</div>;
+    if (loading) return <div className="loading">Loading...</div>;
+    if (error) return <div className="error">Error loading playlist data</div>;
 
     return (
-        <div>
-            <h2>Playlists</h2>
-            <ul>
+        <div className="playlist-container">
+            <h2>Recommended Playlists</h2>
+            <ul className="playlist-grid">
                 {playlists.map(playlist => (
-                    <li key={playlist.playlist_id}> {playlist.name}</li>
+                    <li key={playlist.playlist_id} className="playlist-item">
+                        <div className="playlist-card">
+                            <span className="playlist-name">{playlist.name}</span>
+                        </div>
+                    </li>
                 ))}
             </ul>
         </div>
@@ -22,3 +26,4 @@ const PlaylistRecommendations = () => {
 };
 
 export default PlaylistRecommendations;
+ 
